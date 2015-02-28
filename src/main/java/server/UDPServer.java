@@ -5,7 +5,8 @@ import java.net.*;
 public class UDPServer {
 	 public static void main(String args[]) throws Exception
      {
-		String gittest = "test";
+		String gittest2 = "test";
+		
         @SuppressWarnings("resource")
 		DatagramSocket serverSocket = new DatagramSocket(9876);
            byte[] receiveData = new byte[1024];
