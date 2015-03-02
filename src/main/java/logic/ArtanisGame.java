@@ -5,11 +5,9 @@ import multiplayer.UDPServer;
 
 public class ArtanisGame {
 
-	UDPClient client = new UDPClient();
-	UDPServer server = new UDPServer();
-
-	public static void main(String[] args) {
-
+	public static void main(String[] args) throws Exception {
+		UDPClient.initialize();
+		UDPServer.initialize();
 	}
 
 }

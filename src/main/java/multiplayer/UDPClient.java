@@ -9,9 +9,10 @@ public class UDPClient {
 			InetAddress IPAddress = InetAddress.getByName("52.16.70.139");
 			byte[] sendData = new byte[1024];
 			byte[] receiveData = new byte[1024];
-			String sentence;
-			sentence = "PING";
-			sendData = sentence.getBytes();
+			sendData[0] = 0;
+			sendData[1] = 3;
+			sendData[2] = 0;
+			sendData[3] = 4;
 			DatagramPacket sendPacket = new DatagramPacket(sendData,
 					sendData.length, IPAddress, 9876);
 			clientSocket.send(sendPacket);

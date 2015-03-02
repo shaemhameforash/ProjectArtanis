@@ -13,6 +13,9 @@ public class UDPServer {
 				receiveData.length);
 		while (true) {
 			serverSocket.receive(receivePacket);
+			if(receiveData[0] == 0 && receiveData[1] ==3 && receiveData[2]==0 && receiveData[3] ==6){
+				System.out.println("connection established");
+			}
 			String sentence = new String(receivePacket.getData());
 			System.out.println("RECEIVED: " + sentence);
 			InetAddress IPAddress = receivePacket.getAddress();
