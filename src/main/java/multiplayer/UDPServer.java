@@ -1,8 +1,10 @@
 package multiplayer;
 
 import java.net.*;
+import java.util.Arrays;
 
 public class UDPServer {
+	static byte[] gameID = {0,3,0,6};
 
 	public static void initialize() throws Exception {
 		@SuppressWarnings("resource")
@@ -13,18 +15,24 @@ public class UDPServer {
 				receiveData.length);
 		while (true) {
 			serverSocket.receive(receivePacket);
-			if(receiveData[0] == 0 && receiveData[1] ==3 && receiveData[2]==0 && receiveData[3] ==6){
-				System.out.println("connection established");
+			byte[] headerID= new byte[4];
+			for(int x = 0; x<4; ++x){
+				headerID[x] = receivePacket.getData()[x];
 			}
-			String sentence = new String(receivePacket.getData());
-			System.out.println("RECEIVED: " + sentence);
-			InetAddress IPAddress = receivePacket.getAddress();
-			int port = receivePacket.getPort();
-			String capitalizedSentence = sentence.toUpperCase();
-			sendData = capitalizedSentence.getBytes();
-			DatagramPacket sendPacket = new DatagramPacket(sendData,
-					sendData.length, IPAddress, port);
-			serverSocket.send(sendPacket);
+			if(Arrays.equals(headerID,gameID)){
+				System.out.println("packet contains the game identifier");
+				String sentence = new String(receivePacket.getData());
+				System.out.println("RECEIVED: " + sentence);
+				InetAddress IPAddress = receivePacket.getAddress();
+				int port = receivePacket.getPort();
+				String capitalizedSentence = sentence.toUpperCase();
+				sendData = capitalizedSentence.getBytes();
+				DatagramPacket sendPacket = new DatagramPacket(sendData,
+						sendData.length, IPAddress, port);
+				serverSocket.send(sendPacket);
+			}else{
+				System.out.println("packet does not contain the game identifier");
+			}
 		}
 	}
 }
